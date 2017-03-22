@@ -4,7 +4,7 @@ int read_ports_count = 0;
 int read_ports[1000] = { 0 };
 
 int write_ports_count = 0;
-int write_ports[1000] = { 0 }; 
+int write_ports[1000] = { 0 };
 
 void utwente_init(){
 	
