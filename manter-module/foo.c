@@ -18,7 +18,7 @@ void check_read(int port) {
 		if (read_ports[i] == port) return;
 	}
 	read_ports[read_ports_count++] = port;
-	printf("utwente read %d", port);
+	printf("utwente read %d\n", port);
 }
 
 void check_write(int port) {
@@ -26,7 +26,7 @@ void check_write(int port) {
 		if (write_ports[i] == port) return;
 	}
 	write_ports[write_ports_count++] = port;
-	printf("utwente write %d", port);
+	printf("utwente write %d\n", port);
 }
 
 unsigned char inb(unsigned short int port){
