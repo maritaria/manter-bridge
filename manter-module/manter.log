@@ -1,0 +1,1313 @@
+Constructor OutputControl
+utwente write new 218 ff
+utwente write new 219 ff
+utwente write new 213 80
+utwente write new 217 80
+utwente write new 210 ff
+utwente write new 211 ff
+utwente write new 212 ff
+utwente write new 214 ff
+utwente write new 215 ff
+utwente write new 216 ff
+utwente write new 308 df
+utwente write new 309 ff
+utwente write new 303 80
+utwente write new 307 90
+utwente write new 300 ff
+utwente write new 301 ff
+utwente write new 302 ff
+utwente write new 305 ff
+utwente write new 306 ff
+INIT: OutputControl initialized!
+
+===============================================================
+INIT: WeigherCtrl started!
+INIT: TH_Measure!
+init: 16ch ADc created, not Initialized! 
+SizeOf int=4
+SizeOf short int=2
+SizeOf statisticsData=188
+INIT: StatisticDataCtrl!
+Error during mounting database partition, code is: 256
+>>>>> Trigger an autoClean <<<<<
+>>> initialize complete! <<<
+INIT: CalculateCombination
+INIT: CapacityCalc
+INIT: AutoFillTimeControlINIT: TH_MachineControl!
+INIT: FeedingBelt, 0!
+sizeof bool=1
+sizeof char=1
+sizeof int8_t=1
+INIT: DividerBelt, nb=0!
+INIT: Hopper, 0!
+INIT: Hopper, 1!
+INIT: Hopper, 2!
+INIT: Hopper, 3!
+INIT: VibratorLane, 0!
+INIT: VibratorLane, 1!
+INIT: VibratorLane, 2!
+INIT: VibratorLane, 3!
+INIT: VibratorLane, 4!
+INIT: VibratorLane, 5!
+INIT: VibratorLane, 6!
+INIT: VibratorLane, 7!
+INIT: VibratorLane, 8!
+INIT: VibratorLane, 9!
+INIT: VibratorLane, 10!
+INIT: VibratorLane, 11!
+INIT: TH_FillingControl, done as MultiHead!
+Initialized: Standard4OutputDischarge!
+INIT: ButterflyDivider, 0!
+INIT: DischargeBeltsCentre, 0!
+INIT: DischargeBeltsCentre, 1!
+INIT: Bagger, nb=0!
+INIT: Bagger, nb=1!
+INIT: Bagger, nb=2!
+INIT: Bagger, nb=3!
+utwente write 305 ff
+utwente write 305 ff
+utwente write 305 ff
+utwente write 305 ff
+utwente write 305 ff
+utwente write 305 ff
+ERROR: Bagger::initializeOutputAD(int noOfUnits): NOT USED!
+;ERROR: Bagger::initializeOutputAD(int noOfUnits): NOT USED!
+;ERROR: Bagger::initializeOutputAD(int noOfUnits): NOT USED!
+;ERROR: Bagger::initializeOutputAD(int noOfUnits): NOT USED!
+;Discharge defaults configured!
+Configured: Standard4OutputDischarge!
+INIT: TH_DischargeControl! Discharge System is: 2
+CalPar_lib,preload error 5: nScales=12, ScaleNo=0
+CalPar_lib,preload error 5: nScales=12, ScaleNo=1
+CalPar_lib,preload error 5: nScales=12, ScaleNo=2
+CalPar_lib,preload error 5: nScales=12, ScaleNo=3
+CalPar_lib,preload error 5: nScales=12, ScaleNo=4
+CalPar_lib,preload error 5: nScales=12, ScaleNo=5
+CalPar_lib,preload error 5: nScales=12, ScaleNo=6
+CalPar_lib,preload error 5: nScales=12, ScaleNo=7
+CalPar_lib,preload error 5: nScales=12, ScaleNo=8
+CalPar_lib,preload error 5: nScales=12, ScaleNo=9
+CalPar_lib,preload error 5: nScales=12, ScaleNo=10
+CalPar_lib,preload error 5: nScales=12, ScaleNo=11
+	Preload & Calibration parameters read!
+>>>> TH_FillingControl::loadSettings() <<<<
+>>>> TH_MachineControl::loadSettings() <<<<
+mode isn't changed, only non-buffered mode possible, requested is1!
+not available only non-buffered, time is: 400
+not available, option is: 0
+INIT: controlThread; return code from pthread_create(machineControlThread) is 0
+INIT: threads complete
+
+Scales measures
+weight scale 0 = 610.883976, 0, 7.093000
+weight scale 1 = 624.884310, 0, 3.962333
+weight scale 2 = 612.000000, 0, 1.000000
+weight scale 3 = 610.000000, 0, 1.000000
+weight scale 4 = 635.000000, 0, 1.000000
+weight scale 5 = 628.000000, 0, 1.000000
+weight scale 6 = 627.000000, 0, 1.000000
+weight scale 7 = 628.000000, 0, 1.000000
+weight scale 8 = 648.000000, 0, 1.000000
+weight scale 9 = 603.000000, 0, 1.000000
+weight scale 10 = 606.000000, 0, 1.000000
+weight scale 11 = 610.000000, 0, 1.000000
+
+Version v6.1, Release Date: 01-03-2017, r1480
+MachineNo: 214123
+2017-03-22 02:46:44
+
+certificate Number:	TC7798
+event counter:		50
+DP:			0
+TF1:			36815
+TF2:			63934
+
+
+Initializing Completed
+===============================================================
+utwente read new 304 b76d9955
+utwente read 304 ff
+connectionSlots.id = 0
+Connection -1 terminating! done connections used: 4
+connectionSlots.id = 0
+Connection -1 terminating! done connections used: 3
+connectionSlots.id = 0
+Connection -1 terminating! done connections used: 2
+connectionSlots.id = 0
+Connection -1 terminating! done connections used: 1
+connectionSlots.id = 0
+Connection -1 terminating! done connections used: 0
+INIT: TH_GUIControl!
+TH_GUIControl::startListening()
+utwente read 304 ff
+utwente read 304 ff
+>>>>> Trigger an autoClean <<<<<
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_FillingControl::handle_E1_Emergency_Error()
+	======	HANDLE: FILL_BLOCKING_ERROR	======
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 214 ff
+utwente write 214 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_FillingControl::handle_E3_Air_Error()
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_MachineControl::handle_E1_Emergency_Error()
+utwente write 210 ff
+utwente write 211 ff
+utwente write 212 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 300 ff
+utwente write 301 ff
+utwente write 302 ff
+utwente write 305 ff
+utwente write 306 ff
+TH_MachineControl::handle_E3_Air_Error()
+utwente write 210 ff
+utwente write 211 ff
+utwente write 212 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 300 ff
+utwente write 301 ff
+utwente write 302 ff
+utwente write 305 ff
+utwente write 306 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_DischargeControl::handle_E1_Emergency_Error()
+utwente read 304 ff
+utwente read 304 ff
+TH_DischargeControl::handle_E3_Air_Error()
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_DischargeControl::handle_E1_Emergency_Error()
+utwente read 304 ff
+utwente read 304 ff
+TH_DischargeControl::handle_E2_Thermal_Error()
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_DischargeControl::handle_E3_Air_Error()
+TH_FillingControl::handle_E1_Emergency_Error()
+	======	HANDLE: FILL_BLOCKING_ERROR	======
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 214 ff
+utwente write 214 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_FillingControl::handle_E2_Thermal_Error()
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+TH_FillingControl::handle_E3_Air_Error()
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_MachineControl::handle_E1_Emergency_Error()
+utwente write 210 ff
+utwente write 211 ff
+utwente write 212 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 300 ff
+utwente write 301 ff
+utwente write 302 ff
+utwente write 305 ff
+utwente write 306 ff
+TH_MachineControl::handle_E2_Thermal_Error()
+utwente write 210 ff
+utwente write 211 ff
+utwente write 212 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 300 ff
+utwente write 301 ff
+utwente write 302 ff
+utwente write 305 ff
+utwente write 306 ff
+utwente read 304 ff
+utwente read 304 ff
+TH_MachineControl::handle_E3_Air_Error()
+utwente write 210 ff
+utwente write 211 ff
+utwente write 212 ff
+utwente write 214 ff
+utwente write 215 ff
+utwente write 216 ff
+utwente write 300 ff
+utwente write 301 ff
+utwente write 302 ff
+utwente write 305 ff
+utwente write 306 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
+utwente read 304 ff
