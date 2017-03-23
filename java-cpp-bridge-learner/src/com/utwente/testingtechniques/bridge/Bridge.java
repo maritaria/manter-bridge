@@ -1,4 +1,4 @@
-package com.utwente.testingtechniques;
+package com.utwente.testingtechniques.bridge;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -6,16 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Main {
+import static java.lang.Thread.sleep;
+
+public class Bridge {
 
     public static void main(String[] args) throws InterruptedException, IOException {
-
-        List<String> command = new ArrayList<String>();
         Scanner s = new Scanner(System.in);
+        List<String> command = new ArrayList<String>();
 
-        String currentDir = System.getProperty("user.dir");
-        System.out.println(currentDir);
-        command.add("./src/com/utwente/testingtechniques/cpp_program/sample_cpp_program.exe");
+        command.add(args[0]);
 
         ProcessBuilder builder = new ProcessBuilder(command);
         Map<String, String> environ = builder.environment();
@@ -31,13 +30,23 @@ public class Main {
         ErrReader errReader = new ErrReader(iutErr);
         errReader.start();
 
+//        DataOutputStream asd = new DataOutputStream(process.getOutputStream());
         BufferedWriter pdos = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
-
-        for (;;) {
-            pdos.write(Integer.toString(s.nextInt()) + "\n");
+        String commandToWrite;
+//        iutReader.join();
+        for (; ; ) {
+            commandToWrite = s.nextLine();
+            if (commandToWrite.equals("quit")) {
+                break;
+            }
+            pdos.write("status" + "\n");
             pdos.flush();
         }
+
+//        pdos.close();
+//        process.destroy();
     }
+
 
     public static class ErrReader extends Thread {
         private BufferedReader r;
