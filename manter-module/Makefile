@@ -1,6 +1,6 @@
 make: foo
 foo:
-	g++ -c -Wall -Werror -fpic foo.c
+	g++ -c -std=c++11 -Wall -Werror -fpic foo.c
 	g++ -shared -o libfoo.so foo.o
 	sudo cp libfoo.so /usr/lib
 main:

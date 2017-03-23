@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <string.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 struct pstate_t {
 	int port;
@@ -11,8 +15,21 @@ pstate_t read_ports[1000] = { 0 };
 int write_ports_count = 0;
 pstate_t write_ports[1000] = { 0 };
 
+
+pthread_t my_thread;
+void* utwente_thread(void*);
+
 void utwente_init(){
-	
+	int err = pthread_create(&my_thread, NULL, &utwente_thread, NULL);
+	if (err != 0)
+	{
+		printf("utwente_init() Thread failed [%s]\n", strerror(err));
+		exit(-1);
+	}
+	else
+	{
+		printf("utwente_init() Thread created\n");
+	}
 }
 
 void utwente_shutdown(){
