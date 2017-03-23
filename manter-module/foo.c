@@ -4,71 +4,125 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-struct pstate_t {
+struct port_t {
 	int port;
 	int state;
 };
 
-int read_ports_count = 0;
-pstate_t read_ports[1000] = { 0 };
-
-int write_ports_count = 0;
-pstate_t write_ports[1000] = { 0 };
-
-
+int ports_count = 0;
+port_t ports[1000] = { 0 };
 pthread_t my_thread;
-void* utwente_thread(void*);
+
+int check_read(int port, const char* funcname) {
+	port_t* entry;
+	for(int i = 0; i < ports_count; i++) {
+		entry = &(ports[i]);
+		if (entry->port == port) {
+			return entry->state;
+		}
+	}
+	int state = 0xFF;
+	ports[ports_count++] = {
+		.port = port,
+		.state = state
+	};
+	printf("utwente io new read %x %x\n", port, state);
+	return state;
+}
+
+void check_write(int port, int value, const char* funcname) {
+	port_t* entry;
+	for(int i = 0; i < ports_count; i++) {
+		entry = &(ports[i]);
+		if (entry->port == port) {
+			entry->state = value;
+			return;
+		}
+	}
+	ports[ports_count++] = {
+		.port = port,
+		.state = value
+	};
+	printf("utwente io new write %x %x\n", port, value);
+}
+
+void* utwente_thread(void* arg){
+	puts("utwente thread hello");
+	
+	while(1) {
+		char user_string[1000];
+		if(fgets(user_string, 1000, stdin) == NULL) 
+		{
+			continue;
+		}
+		char *pos = strchr(user_string, '\n');
+		if (pos == NULL) { continue; }
+		
+		/* Trim newline from fgets */
+		*pos = '\0';
+		
+		if (strcmp(user_string, "quit") == 0) {
+			break;
+		}
+		const char* delimiters = " ";
+		char* part = strtok(user_string, delimiters);
+		
+		#define MODE_GET 1
+		#define MODE_SET 2
+		#define PRINT_IO(port, value) printf("utwente_io(%x, %x)\n", port, value)
+		int mode = 0;
+		
+		while (part != NULL) {
+			
+			if (strcmp(part, "get") == 0) {
+				printf("utwente command now reading\n");
+				mode = MODE_GET;
+			}
+			else if (strcmp(part, "set") == 0) {
+				printf("utwente command now writing\n");
+				mode = MODE_SET;
+			}
+			else if (strcmp(part, "status") == 0) {
+				for (int i = 0; i < ports_count; i++) {
+					port_t port = ports[i];
+					PRINT_IO(port.port, port.state);
+				}
+			}
+			else if (mode == MODE_GET) {
+				int port = 0;
+				sscanf(part, "%x", &port);
+				int value = check_read(port, NULL);
+				PRINT_IO(port, value);
+			}
+			else if (mode == MODE_SET) {
+				int port = 0;
+				int value = 0;
+				sscanf(part, "%x_%x", &port, &value);
+				check_write(port, value, NULL);
+			}
+			part = strtok(NULL, delimiters);
+		}
+	}
+	
+	exit(0);
+	return NULL;
+}
 
 void utwente_init(){
 	int err = pthread_create(&my_thread, NULL, &utwente_thread, NULL);
 	if (err != 0)
 	{
-		printf("utwente_init() Thread failed [%s]\n", strerror(err));
+		printf("utwente init() Thread failed [%s]\n", strerror(err));
 		exit(-1);
 	}
 	else
 	{
-		printf("utwente_init() Thread created\n");
+		printf("utwente init() Thread created\n");
 	}
 }
 
 void utwente_shutdown(){
 	
-}
-
-int check_read(int port, const char* funcname) {
-	pstate_t entry;
-	for(int i = 0; i < read_ports_count; i++) {
-		entry = read_ports[i];
-		if (entry.port == port) {
-			printf("utwente read %x %x\n", port, entry.state);
-			return entry.state;
-		}
-	}
-	int state = 0xFF;
-	read_ports[read_ports_count++] = {
-		.port = port,
-		.state = state
-	};
-	printf("utwente read new %x %x\n", port, entry.state);
-	return state;
-}
-
-void check_write(int port, int value, const char* funcname) {
-	pstate_t entry;
-	for(int i = 0; i < write_ports_count; i++) {
-		entry = write_ports[i];
-		if (entry.port == port) {
-			entry.state = value;
-			printf("utwente write %x %x\n", port, value);
-			return;
-		}
-	}
-	write_ports[write_ports_count++] = {
-		.port = port,
-		.state = value
-	};
-	printf("utwente write new %x %x\n", port, value);
 }
 
 unsigned char inb(unsigned short int port){
