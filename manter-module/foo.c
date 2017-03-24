@@ -46,7 +46,7 @@ void check_write(int port, int value, const char* funcname) {
 	printf("utwente io new write %x %x\n", port, value);
 }
 
-void* utwente_thread(void* arg){
+void* utwente_thread(void* arg) {
 	puts("utwente thread hello");
 	
 	while(1) {
@@ -108,7 +108,7 @@ void* utwente_thread(void* arg){
 	return NULL;
 }
 
-void utwente_init(){
+void utwente_init() {
 	int err = pthread_create(&my_thread, NULL, &utwente_thread, NULL);
 	if (err != 0)
 	{
@@ -121,67 +121,81 @@ void utwente_init(){
 	}
 }
 
-void utwente_shutdown(){
+void utwente_shutdown() {
 	
 }
 
-unsigned char inb(unsigned short int port){
+unsigned char inb(unsigned short int port) {
 	return check_read((int) port, "inb");
 }
 
-unsigned char inb_p(unsigned short int port){
+unsigned char inb_p(unsigned short int port) {
 	return check_read((int) port, "inb_p");
 }
-unsigned short int inw(unsigned short int port){
+unsigned short int inw(unsigned short int port) {
 	return check_read((int) port, "inw");
 }
-unsigned short int inw_p(unsigned short int port){
+unsigned short int inw_p(unsigned short int port) {
 	return check_read((int) port, "inw_p");
 }
-unsigned int inl(unsigned short int port){
+unsigned int inl(unsigned short int port) {
 	return check_read((int) port, "inl");
 }
-unsigned int inl_p(unsigned short int port){
+unsigned int inl_p(unsigned short int port) {
 	return check_read((int) port, "inl_p");
 }
 
 
 
-void outb(unsigned char value, unsigned short int port){
+void outb(unsigned char value, unsigned short int port) {
 	check_write((int) port, value, "outb");
 }
 
-void outb_p(unsigned char value, unsigned short int port){
+void outb_p(unsigned char value, unsigned short int port) {
 	check_write((int) port, value, "outb_p");
 }
-void outw(unsigned short int value, unsigned short int port){
+void outw(unsigned short int value, unsigned short int port) {
 	check_write((int) port, value, "outw");
 }
-void outw_p(unsigned short int value, unsigned short int port){
+void outw_p(unsigned short int value, unsigned short int port) {
 	check_write((int) port, value, "outw_p");
 }
-void outl(unsigned int value, unsigned short int port){
+void outl(unsigned int value, unsigned short int port) {
 	check_write((int) port, value, "outl");
 }
-void outl_p(unsigned int value, unsigned short int port){
+void outl_p(unsigned int value, unsigned short int port) {
 	check_write((int) port, value, "outl_p");
 }
 
-void insb(unsigned short int port, void *addr, unsigned long int count){
+void insb(unsigned short int port, void *addr, unsigned long int count) {
+	for (unsigned long int i = 0; i < count; i ++) {
+		check_read(port + i, "insb");
+	}
+}
+void insw(unsigned short int port, void *addr, unsigned long int count) {
+	for (unsigned long int i = 0; i < count; i ++) {
+		check_read(port + i, "insb");
+	}
 	
 }
-void insw(unsigned short int port, void *addr, unsigned long int count){
+void insl(unsigned short int port, void *addr, unsigned long int count) {
+	for (unsigned long int i = 0; i < count; i ++) {
+		check_read(port + i, "insb");
+	}
 	
 }
-void insl(unsigned short int port, void *addr, unsigned long int count){
-	
+void outsb(unsigned short int port, const void *addr, unsigned long int count) {
+	for (unsigned long int i = 0; i < count; i ++) {
+		check_write(port + i, 0, "insb");
+	}	
 }
-void outsb(unsigned short int port, const void *addr, unsigned long int count){
-	
+void outsw(unsigned short int port, const void *addr, unsigned long int count) {
+	for (unsigned long int i = 0; i < count; i ++) {
+		check_write(port + i, 0, "insb");
+	}
 }
-void outsw(unsigned short int port, const void *addr, unsigned long int count){
-	
-}
-void outsl(unsigned short int port, const void *addr, unsigned long int count){
-	
+void outsl(unsigned short int port, const void *addr, unsigned long int count) {
+	for (unsigned long int i = 0; i < count; i ++) {
+		check_write(port + i, 0, "insb");
+	}
 }
