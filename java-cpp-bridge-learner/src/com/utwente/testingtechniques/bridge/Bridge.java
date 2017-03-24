@@ -1,5 +1,7 @@
 package com.utwente.testingtechniques.bridge;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,11 @@ import static java.lang.Thread.sleep;
 public class Bridge {
 
     public static void main(String[] args) throws InterruptedException, IOException {
+        if (args.length == 0) {
+            System.out.println("Please provide as argument relative path to the program/command you want to execute.");
+            return;
+        }
+
         Scanner s = new Scanner(System.in);
         List<String> command = new ArrayList<String>();
 
@@ -30,21 +37,19 @@ public class Bridge {
         ErrReader errReader = new ErrReader(iutErr);
         errReader.start();
 
-//        DataOutputStream asd = new DataOutputStream(process.getOutputStream());
         BufferedWriter pdos = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
         String commandToWrite;
-//        iutReader.join();
         for (; ; ) {
             commandToWrite = s.nextLine();
             if (commandToWrite.equals("quit")) {
                 break;
             }
-            pdos.write("status" + "\n");
+            pdos.write("status" + "\r");
             pdos.flush();
         }
 
-//        pdos.close();
-//        process.destroy();
+        pdos.close();
+        process.destroy();
     }
 
 
