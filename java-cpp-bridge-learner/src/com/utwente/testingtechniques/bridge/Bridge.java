@@ -44,7 +44,7 @@ public class Bridge {
             if (commandToWrite.equals("quit")) {
                 break;
             }
-            pdos.write("status" + "\r");
+            pdos.write("status" + "\n");
             pdos.flush();
         }
 
