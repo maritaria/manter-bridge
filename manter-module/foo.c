@@ -53,7 +53,6 @@ void* utwente_thread(void* arg) {
 		char user_string[1000];
 		if(fgets(user_string, 1000, stdin) == NULL) 
 		{
-			puts("no input :(");
 			continue;
 		}
 		char *pos = strchr(user_string, '\n');
@@ -113,6 +112,7 @@ void* utwente_thread(void* arg) {
 }
 
 void utwente_init() {
+	setbuf(stdout, NULL);
 	int err = pthread_create(&my_thread, NULL, &utwente_thread, NULL);
 	if (err != 0)
 	{
