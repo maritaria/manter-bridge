@@ -7,13 +7,19 @@
 struct port_t {
 	int port;
 	int state;
+	int initial_state;
 };
+
+
 
 int ports_count = 0;
 port_t ports[1000] = { 0 };
 pthread_t my_thread;
+int show_reads = 0;
+int show_writes = 0;
 
 int check_read(int port, const char* funcname) {
+	if (show_reads) printf("utwente io read %x\n", port);
 	port_t* entry;
 	for(int i = 0; i < ports_count; i++) {
 		entry = &(ports[i]);
@@ -24,13 +30,15 @@ int check_read(int port, const char* funcname) {
 	int state = 0xFF;
 	ports[ports_count++] = {
 		.port = port,
-		.state = state
+		.state = state,
+		.initial_state = state
 	};
 	printf("utwente io new read %x %x\n", port, state);
 	return state;
 }
 
 void check_write(int port, int value, const char* funcname) {
+	if (show_writes) printf("utwente io write %x %x\n", port, value);
 	port_t* entry;
 	for(int i = 0; i < ports_count; i++) {
 		entry = &(ports[i]);
@@ -41,7 +49,8 @@ void check_write(int port, int value, const char* funcname) {
 	}
 	ports[ports_count++] = {
 		.port = port,
-		.state = value
+		.state = value,
+		.initial_state = value
 	};
 	printf("utwente io new write %x %x\n", port, value);
 }
@@ -65,8 +74,6 @@ void* utwente_thread(void* arg) {
 			break;
 		}
 		
-		printf("Received input: %s\n", user_string);
-		
 		const char* delimiters = " ";
 		char* part = strtok(user_string, delimiters);
 		
@@ -76,8 +83,25 @@ void* utwente_thread(void* arg) {
 		int mode = 0;
 		
 		while (part != NULL) {
-			
-			if (strcmp(part, "get") == 0) {
+			if (strcmp(part, "reset") == 0) {
+				for(int i = 0; i < ports_count;i++) {
+					port_t* port = &(ports[i]);
+					port->state = port->initial_state;
+				}
+			}
+			else if (strcmp(part, "show_reads") == 0) {
+				show_reads = 1;
+			}
+			else if (strcmp(part, "show_writes") == 0) {
+				show_writes = 1;
+			}
+			else if (strcmp(part, "hide_reads") == 0) {
+				show_reads = 0;
+			}
+			else if (strcmp(part, "hide_writes") == 0) {
+				show_writes = 0;
+			}
+			else if (strcmp(part, "get") == 0) {
 				printf("utwente command now reading\n");
 				mode = MODE_GET;
 			}
