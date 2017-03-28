@@ -8,6 +8,8 @@ struct port_t {
 	int port;
 	int state;
 	int initial_state;
+	bool is_pending;
+	int pending_state;
 };
 
 
@@ -39,18 +41,26 @@ int check_read(int port, const char* funcname) {
 
 void check_write(int port, int value, const char* funcname) {
 	if (show_writes) printf("utwente io write %x %x\n", port, value);
+	bool pending_write = (strcmp(funcname, "pending") == 0);
 	port_t* entry;
 	for(int i = 0; i < ports_count; i++) {
 		entry = &(ports[i]);
 		if (entry->port == port) {
-			entry->state = value;
+			if (pending_write) {
+				entry->pending_state = value;
+				entry->is_pending = 1;
+			} else {
+				entry->state = value;
+			}
 			return;
+			
 		}
 	}
 	ports[ports_count++] = {
 		.port = port,
 		.state = value,
-		.initial_state = value
+		.initial_state = value,
+		.is_pending = 0,
 	};
 	printf("utwente io new write %x %x\n", port, value);
 }
@@ -79,7 +89,8 @@ void* utwente_thread(void* arg) {
 		
 		#define MODE_GET 1
 		#define MODE_SET 2
-		#define PRINT_IO(port, value) printf("utwente_io(%x, %x)\n", port, value)
+		#define MODE_PENDING 3
+		#define PRINT_IO(port, value, pending) printf("utwente_io(%x, %x, %x)\n", port, value, pending)
 		int mode = 0;
 		
 		while (part != NULL) {
@@ -87,6 +98,14 @@ void* utwente_thread(void* arg) {
 				for(int i = 0; i < ports_count;i++) {
 					port_t* port = &(ports[i]);
 					port->state = port->initial_state;
+				}
+			}
+			else if (strcmp(part, "apply") == 0) {
+				for(int i = 0; i < ports_count;i++) {
+					port_t* port = &(ports[i]);
+					if (!port->is_pending) continue;
+					port->is_pending = 0;
+					port->state = port->pending_state;
 				}
 			}
 			else if (strcmp(part, "show_reads") == 0) {
@@ -109,23 +128,33 @@ void* utwente_thread(void* arg) {
 				printf("utwente command now writing\n");
 				mode = MODE_SET;
 			}
+			else if (strcmp(part, "preset") == 0) {
+				printf("utwente command now preparing\n");
+				mode = MODE_PENDING;
+			}
 			else if (strcmp(part, "status") == 0) {
 				for (int i = 0; i < ports_count; i++) {
 					port_t port = ports[i];
-					PRINT_IO(port.port, port.state);
+					PRINT_IO(port.port, port.state, (port.is_pending ? port.pending_state : -1));
 				}
 			}
 			else if (mode == MODE_GET) {
 				int port = 0;
 				sscanf(part, "%x", &port);
 				int value = check_read(port, NULL);
-				PRINT_IO(port, value);
+				PRINT_IO(port, value, -1);
 			}
 			else if (mode == MODE_SET) {
 				int port = 0;
 				int value = 0;
 				sscanf(part, "%x_%x", &port, &value);
 				check_write(port, value, NULL);
+			}
+			else if (mode == MODE_PENDING) {
+				int port = 0;
+				int value = 0;
+				sscanf(part, "%x_%x", &port, &value);
+				check_write(port, value, "pending");
 			}
 			part = strtok(NULL, delimiters);
 		}
