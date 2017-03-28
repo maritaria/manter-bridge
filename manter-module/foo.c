@@ -56,7 +56,7 @@ void* utwente_thread(void* arg) {
 			continue;
 		}
 		char *pos = strchr(user_string, '\n');
-		if (pos == NULL) { continue; }
+		if (pos == NULL) { puts("\\n not found"); continue; }
 		
 		/* Trim newline from fgets */
 		*pos = '\0';
