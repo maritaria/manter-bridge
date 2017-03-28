@@ -53,6 +53,7 @@ void* utwente_thread(void* arg) {
 		char user_string[1000];
 		if(fgets(user_string, 1000, stdin) == NULL) 
 		{
+			puts("no input :(");
 			continue;
 		}
 		char *pos = strchr(user_string, '\n');
@@ -64,6 +65,9 @@ void* utwente_thread(void* arg) {
 		if (strcmp(user_string, "quit") == 0) {
 			break;
 		}
+		
+		printf("Received input: %s\n", user_string);
+		
 		const char* delimiters = " ";
 		char* part = strtok(user_string, delimiters);
 		
