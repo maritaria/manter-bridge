@@ -52,39 +52,6 @@ public class LearnerSUL implements SUL<String, String> {
      * @return
      */
     public String makeTransition(String input) {
-        switch (currentState) {
-            case s0:
-                switch(input) {
-                    case "a":
-                        currentState = State.s1;
-                        return "x";
-                    case "b":
-                        currentState = State.s2;
-                        return "y";
-                    case "c":
-                        return "z";
-                }
-            case s1:
-                switch(input) {
-                    case "a":
-                        return "z";
-                    case "b":
-                        currentState = State.s2;
-                        return "y";
-                    case "c":
-                        return "z";
-                }
-            case s2:
-                switch(input) {
-                    case "a":
-                        return "z";
-                    case "b":
-                        currentState = State.s0;
-                        return "y";
-                    case "c":
-                        return "z";
-                }
-        }
         throw new SULException(new IllegalArgumentException("Argument '" + input + "' was not handled"));
     }
 }
