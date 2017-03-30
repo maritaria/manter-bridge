@@ -12,8 +12,6 @@ struct port_t {
 	int pending_state;
 };
 
-
-
 int ports_count = 0;
 port_t ports[1000] = { 0 };
 pthread_t my_thread;
@@ -137,6 +135,14 @@ void* utwente_thread(void* arg) {
 					port_t port = ports[i];
 					PRINT_IO(port.port, port.state, (port.is_pending ? port.pending_state : -1));
 				}
+			}
+			else if (strcmp(part, "status2") == 0) {
+				printf("status2:");
+				for (int i = 0; i < ports_count; i++) {
+					port_t port = ports[i];
+					printf(" %x,%x", port.port, port.state);
+				}
+				printf("\n");
 			}
 			else if (mode == MODE_GET) {
 				int port = 0;
