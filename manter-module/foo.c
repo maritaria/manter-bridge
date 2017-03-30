@@ -41,6 +41,7 @@ int check_read(int port, const char* funcname) {
 
 void check_write(int port, int value, const char* funcname) {
 	if (show_writes) printf("utwente io write %x %x\n", port, value);
+	bool pending_write = (funcname && strcmp("pending", funcname) == 0);
 	port_t* entry;
 	for(int i = 0; i < ports_count; i++) {
 		entry = &(ports[i]);
