@@ -137,7 +137,7 @@ void* utwente_thread(void* arg) {
 				}
 			}
 			else if (strcmp(part, "status2") == 0) {
-				printf("status2:");
+				printf("utwente_status2:");
 				for (int i = 0; i < ports_count; i++) {
 					port_t port = ports[i];
 					printf(" %x,%x", port.port, port.state);
