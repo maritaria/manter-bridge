@@ -12,7 +12,7 @@ public class ManterBridge {
     private static ErrReader errReader;
     private static ManterModel mm;
 
-    class Register {
+    static class Register {
         int port;
         int value;
 
@@ -42,7 +42,7 @@ public class ManterBridge {
         }
 
         void print() {
-            System.out.println(this.port + "_" + this.value);
+            System.out.println("Port: " + this.port + "\n Value: " + this.value + "\n");
         }
     }
 
@@ -52,13 +52,6 @@ public class ManterBridge {
         String resetCommand;
         String setCommand;
         String getCommand;
-
-        //Commands:
-        //status
-        //reset
-        //get PORT_VALUE
-        //set PORT_VALUE
-        //and more but not yet needed.
 
         ManterModel() {
             this.currentRegisterState = new ArrayList<Register>();
@@ -73,11 +66,11 @@ public class ManterBridge {
             pBW.flush();
         }
 
-        public void getStatus() throws IOException {
+        void getStatus() throws IOException {
             this.writeToBW(statusCommand);
         }
 
-        public void reset() throws IOException {
+        void reset() throws IOException {
             this.writeToBW(resetCommand);
         }
 
@@ -87,26 +80,31 @@ public class ManterBridge {
             this.writeToBW(composedStr);
         }
 
-        public void getRegister(int p) throws IOException {
+        void getRegister(int p) throws IOException {
             String composedStr = this.getCommand + " " + Integer.toString(p);
             this.writeToBW(composedStr);
         }
 
-        void setPseudoRegister(int p, int v) {
+        void setOrAddPseudoRegister(int p, int v) {
+            boolean found = false;
             for (Register register : this.currentRegisterState) {
-                if (register.getValue() == p) {
+                if (register.getPort() == p) {
                     register.setValue(v);
+                    found = true;
                 }
+            }
+            if (!found) {
+                this.currentRegisterState.add(new Register(p, v));
             }
         }
 
-        public void printCurrentState() {
+        void printCurrentState() {
             for (Register reg : this.currentRegisterState) {
                 reg.print();
             }
         }
 
-        public ArrayList<Register> getRegisters() {
+        ArrayList<Register> getRegisters() {
             return this.currentRegisterState;
         }
 
@@ -119,12 +117,12 @@ public class ManterBridge {
         }
 
         Scanner s = new Scanner(System.in);
-        List<String> command = new ArrayList<String>();
+        List<String> command = new ArrayList<>();
 
         command.add(args[0]);
 
         ProcessBuilder builder = new ProcessBuilder(command);
-        Map<String, String> environ = builder.environment();
+//        Map<String, String> environ = builder.environment();
 
         final Process process = builder.start();
         InputStream iutOut = process.getInputStream();
@@ -193,7 +191,7 @@ public class ManterBridge {
         public void run() {
             System.out.println("IUTReader running!");
             String b;
-            String[] arr = {};
+            String[] arr;
             int register;
             int value;
             while (true) {
@@ -206,14 +204,14 @@ public class ManterBridge {
                         b = b.substring(11, b.length() - 1);
                         arr = b.split(",");
                         register = Integer.parseInt(arr[0].replaceAll("\\s", ""));
-                        value = Integer.parseInt(arr[1].replaceAll("\\s", ""));
+                        value = Integer.decode("0x" + arr[1].replaceAll("\\s", ""));
 
 //                        System.out.println("Register: " + arr[0].replaceAll("\\s", ""));
-//                        System.out.println("Value: " + arr[1].replaceAll("\\s", ""));
+//                        System.out.println("Value: " + "0x" + arr[1].replaceAll("\\s", ""));
 
-                        mm.setPseudoRegister(register, value);
+                        mm.setOrAddPseudoRegister(register, value);
 
-                        mm.printCurrentState();
+//                        mm.printCurrentState();
                     }
                 } catch (EOFException e) {
                     System.err.println("iutReader got eof exception: " + e.getMessage());
