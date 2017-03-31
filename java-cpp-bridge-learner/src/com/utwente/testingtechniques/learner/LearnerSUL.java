@@ -17,7 +17,8 @@ public class LearnerSUL implements SUL<String, String> {
     private static boolean VERBOSE = true;
 
     LearnerSUL() throws IOException, InterruptedException {
-        this.currentState = this.makeTransition(("bagger_empty"));
+        //initialize state
+        this.currentState = "not_dropping and belt not running";
     }
 
     @Override
@@ -47,7 +48,7 @@ public class LearnerSUL implements SUL<String, String> {
         }
         try {
             ManterBridge.mm.reset();
-            this.currentState = "not_dropping";
+            this.currentState = "not_dropping and belt not running";
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,6 +90,8 @@ public class LearnerSUL implements SUL<String, String> {
      * output.
      */
     private String makeTransition(String input) throws IOException, InterruptedException {
+//        bagger_empty -> dropping
+//        bagger_full -> not_dropping
         switch (input) {
             case "bagger_empty":
                 ManterBridge.mm.setRegister(300, 0xef);
@@ -104,14 +107,22 @@ public class LearnerSUL implements SUL<String, String> {
         int counter = 0;
         boolean notDropping = false;
         boolean startedDropping = false;
+//        boolean previous_notDropping = true, previous_startedDropping = false, previous_beltRunning = false;
+        boolean beltRunning = false;
         while (currTime + 1000 > System.currentTimeMillis()) {
             counter++;
             boolean isBucketDropping = false;
+
             ArrayList<ManterBridge.Register> tempArrReg = ManterBridge.mm.getStatus();
             //211 && 212 == ff (No buckets open)
+
             for (ManterBridge.Register reg : tempArrReg) {
-                if ((reg.port == 211 || reg.port == 212)) {
+                if ((reg.port == 215 || reg.port == 216)) {
                     isBucketDropping |= reg.value != Integer.decode("0xff");
+
+                }
+                if (reg.port == 305) {
+                    beltRunning |= reg.value != Integer.decode("0xff");
                 }
             }
             if (!isBucketDropping && !notDropping) {
@@ -119,9 +130,20 @@ public class LearnerSUL implements SUL<String, String> {
             }
             if (notDropping && isBucketDropping) {
                 startedDropping = true;
+                break;
             }
+//            if (previous_notDropping == notDropping || previous_startedDropping == startedDropping || previous_beltRunning == beltRunning)
+//                break;
         }
         System.out.println("Counter: " + counter);
-        return startedDropping ? "dropping" : "not_dropping";
+        if ((!notDropping || startedDropping) && beltRunning) {
+            return "dropping and belt running";
+        } else if ((!notDropping || startedDropping)) {
+            return "dropping and belt not running";
+        } else if (beltRunning) {
+            return "not_dropping and belt running";
+        } else {
+            return "not_dropping and belt not running";
+        }
     }
 }

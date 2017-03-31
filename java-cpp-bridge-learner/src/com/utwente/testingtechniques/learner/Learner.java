@@ -68,7 +68,7 @@ public class Learner {
         EquivalenceOracle<MealyMachine<?, String, ?, String>, String, Word<String>> eqOracle
                 = new RandomWalkEQOracle<>(
                 0.05, // reset SUL w/ this probability before a step
-                10000, // max steps (overall)
+                2, // max steps (overall)
                 true,  // reset step count after counterexample
                 new Random(123456l), // make results reproducible
                 sul    // system under learning

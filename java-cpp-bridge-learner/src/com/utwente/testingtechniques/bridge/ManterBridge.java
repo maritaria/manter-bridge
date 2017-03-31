@@ -57,8 +57,9 @@ public class ManterBridge {
         ManterModel() {
             this.currentRegisterState = new ArrayList<>();
             this.filterPorts = new ArrayList<Integer>();
-            this.filterPorts.add(211);
-            this.filterPorts.add(212);
+            this.filterPorts.add(216);
+            this.filterPorts.add(215);
+            this.filterPorts.add(305);
             this.filterPorts.add(300);
             statusCommand = "status2";
             resetCommand = "reset";
@@ -93,7 +94,7 @@ public class ManterBridge {
                     Integer value = Integer.decode("0x" + registerAndValue[1].replaceAll("\\s", ""));
                     mm.setOrAddPseudoRegister(register, value);
                 } catch (Exception e) {
-                    System.out.println("\n\nException message : " + message);
+                    System.out.println("\n\n!!!Exception message!!!\n" + message);
                     System.out.println(croppedMessage);
                     System.out.println(e.getMessage() + "\n\n");
                 }
