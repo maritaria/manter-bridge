@@ -16,8 +16,8 @@ public class LearnerSUL implements SUL<String, String> {
     private String currentState;
     private static boolean VERBOSE = true;
 
-    LearnerSUL() {
-        this.currentState = "not_dropping";
+    LearnerSUL() throws IOException, InterruptedException {
+        this.currentState = this.makeTransition(("bagger_empty"));
     }
 
     @Override

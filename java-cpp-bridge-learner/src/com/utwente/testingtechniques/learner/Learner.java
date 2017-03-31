@@ -57,9 +57,6 @@ public class Learner {
             command = s.nextLine();
         }
 
-//        ManterBridge.mm.getStatus();
-
-
         SUL<String, String> sul = new LearnerSUL();
 
         // Most testing/learning-algorithms want a membership-oracle instead of a SUL directly

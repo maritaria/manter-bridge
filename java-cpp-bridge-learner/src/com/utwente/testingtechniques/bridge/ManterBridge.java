@@ -12,11 +12,6 @@ public class ManterBridge {
     static BufferedReader input;
     static BufferedReader error;
 
-
-    ManterBridge() throws IOException, InterruptedException {
-        run(new String[]{"./weigherCtrl"});
-    }
-
     public static class Register {
         public int port;
         public int value;
@@ -78,21 +73,17 @@ public class ManterBridge {
 
         String getCustomMessage() throws IOException {
             String currentLine;
-            String message;
             while (true) {
                 currentLine = input.readLine();
                 if (currentLine.contains("utwente_status2")) {
-                    message = currentLine;
-                    break;
+                    return currentLine;
                 }
             }
-            return message;
         }
 
         void parseSaveCustomMessage(String message) {
-//            message = message.replaceAll(".*:","");
-            message = message.substring(17, message.length() - 1);
-            String[] registers = message.split(" ");
+            String croppedMessage = message.substring(17, message.length() - 1);
+            String[] registers = croppedMessage.split(" ");
             String[] registerAndValue;
             int register;
             for (String val : registers) {
@@ -102,7 +93,9 @@ public class ManterBridge {
                     Integer value = Integer.decode("0x" + registerAndValue[1].replaceAll("\\s", ""));
                     mm.setOrAddPseudoRegister(register, value);
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("\n\nException message : " + message);
+                    System.out.println(croppedMessage);
+                    System.out.println(e.getMessage() + "\n\n");
                 }
             }
         }
