@@ -12,6 +12,12 @@ struct port_t {
 	int pending_state;
 };
 
+struct channel_t {
+	int channel;
+	int state;
+	bool is_override;
+};
+
 int adc_count = 0;
 
 int ports_count = 0;
@@ -20,8 +26,11 @@ pthread_t my_thread;
 int show_reads = 0;
 int show_writes = 0;
 
+int channel_count = 0;
+channel_t channels[1000] = { 0 };
+
 int check_read(int port, const char* funcname) {
-	if (show_reads) printf("utwente io read %x\n", port);
+	if (show_reads) printf("utwente io read %02x\n", port);
 	port_t* entry;
 	for(int i = 0; i < ports_count; i++) {
 		entry = &(ports[i]);
@@ -35,12 +44,12 @@ int check_read(int port, const char* funcname) {
 		.state = state,
 		.initial_state = state
 	};
-	printf("utwente io new read %x %x\n", port, state);
+	printf("utwente io new read %x %02x\n", port, state);
 	return state;
 }
 
 void check_write(int port, int value, const char* funcname) {
-	if (show_writes) printf("utwente io write %x %x\n", port, value);
+	if (show_writes) printf("utwente io write %02x %02x\n", port, value);
 	bool pending_write = (funcname && strcmp("pending", funcname) == 0);
 	port_t* entry;
 	for(int i = 0; i < ports_count; i++) {
@@ -62,7 +71,27 @@ void check_write(int port, int value, const char* funcname) {
 		.initial_state = value,
 		.is_pending = 0,
 	};
-	printf("utwente io new write %x %x\n", port, value);
+	printf("utwente io new write %x %02x\n", port, value);
+}
+
+int check_adc_read(int channel, int simulated_value, const char* funcname) {
+	channel_t* entry;
+	for(int i = 0; i < channel_count; i++) {
+		entry = &(channels[i]);
+		if (entry->channel == channel) {
+			if (!entry->is_override) {
+				entry->state = simulated_value;
+			}
+			return entry->state;
+		}
+	}
+	channels[channel_count++] = {
+		.channel = channel,
+		.state = simulated_value,
+		.is_override = 0,
+	};
+	printf("utwente adc new read %02d\n", channel);
+	return simulated_value;
 }
 
 void* utwente_thread(void* arg) {
@@ -90,7 +119,8 @@ void* utwente_thread(void* arg) {
 		#define MODE_GET 1
 		#define MODE_SET 2
 		#define MODE_PENDING 3
-		#define PRINT_IO(port, value, pending) printf("utwente_io(%x, %x, %x)\n", port, value, pending)
+		#define PRINT_IO(port, value, pending) printf("utwente_io(%02x, %02x, %x)\n", port, value, pending)
+		#define PRINT_ADC(channel, value, override) printf("utwente_adc(%d, %d, %s)\n", channel, value, override ? "override" : "simulated")
 		int mode = 0;
 		
 		while (part != NULL) {
@@ -137,6 +167,10 @@ void* utwente_thread(void* arg) {
 					port_t port = ports[i];
 					PRINT_IO(port.port, port.state, (port.is_pending ? port.pending_state : -1));
 				}
+				for (int i = 0; i < channel_count; i++){
+					channel_t channel = channels[i];
+					PRINT_ADC(channel.channel, channel.state, channel.is_override);
+				}
 			}
 			else if (strcmp(part, "adc_count") == 0) {
 				printf("utwente_adc_count(%d)\n", adc_count);
@@ -146,7 +180,7 @@ void* utwente_thread(void* arg) {
 				printf("utwente_status2:");
 				for (int i = 0; i < ports_count; i++) {
 					port_t port = ports[i];
-					printf(" %x,%x", port.port, port.state);
+					printf(" %02x,%02x", port.port, port.state);
 				}
 				printf("\n");
 			}
@@ -195,9 +229,7 @@ void utwente_shutdown() {
 }
 
 int utwente_adc(int channel, int simulated_value) {
-	//printf("utwente_adc(%d, %d)\n", channel, simulated_value);
-	adc_count++;
-	return simulated_value;
+	return check_adc_read(channel, simulated_value, "adc");
 }
 
 unsigned char inb(unsigned short int port) {
