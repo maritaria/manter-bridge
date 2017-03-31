@@ -3,18 +3,23 @@ package com.utwente.testingtechniques.bridge;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class ManterBridge {
-    private static BufferedWriter pBW;
-    private static IUTReader iutReader;
-    private static ErrReader errReader;
-    private static ManterModel mm;
+    static BufferedWriter pBW;
+    public static ManterModel mm;
+    public static boolean programReady = false;
+    static BufferedReader input;
+    static BufferedReader error;
 
-    static class Register {
-        int port;
-        int value;
+
+    ManterBridge() throws IOException, InterruptedException {
+        run(new String[]{"./weigherCtrl"});
+    }
+
+    public static class Register {
+        public int port;
+        public int value;
 
         Register(int port, int value) {
             this.port = port;
@@ -52,30 +57,70 @@ public class ManterBridge {
         String resetCommand;
         String setCommand;
         String getCommand;
+        ArrayList<Integer> filterPorts;
 
         ManterModel() {
-            this.currentRegisterState = new ArrayList<Register>();
-            statusCommand = "status";
+            this.currentRegisterState = new ArrayList<>();
+            this.filterPorts = new ArrayList<Integer>();
+            this.filterPorts.add(211);
+            this.filterPorts.add(212);
+            this.filterPorts.add(300);
+            statusCommand = "status2";
             resetCommand = "reset";
             getCommand = "get";
             setCommand = "set";
         }
 
         void writeToBW(String str) throws IOException {
-            pBW.write(str);
+            pBW.write(str + "\n");
             pBW.flush();
         }
 
-        void getStatus() throws IOException {
-            this.writeToBW(statusCommand);
+        String getCustomMessage() throws IOException {
+            String currentLine;
+            String message;
+            while (true) {
+                currentLine = input.readLine();
+                if (currentLine.contains("utwente_status2")) {
+                    message = currentLine;
+                    break;
+                }
+            }
+            return message;
         }
 
-        void reset() throws IOException {
+        void parseSaveCustomMessage(String message) {
+//            message = message.replaceAll(".*:","");
+            message = message.substring(17, message.length() - 1);
+            String[] registers = message.split(" ");
+            String[] registerAndValue;
+            int register;
+            for (String val : registers) {
+                try {
+                    registerAndValue = val.split(",");
+                    register = Integer.parseInt(registerAndValue[0].replaceAll("\\s", ""));
+                    Integer value = Integer.decode("0x" + registerAndValue[1].replaceAll("\\s", ""));
+                    mm.setOrAddPseudoRegister(register, value);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+
+        public ArrayList<Register> getStatus() throws IOException {
+            this.writeToBW(statusCommand);
+            String message;
+            message = this.getCustomMessage();
+            this.parseSaveCustomMessage(message);
+            return this.currentRegisterState;
+        }
+
+        public void reset() throws IOException {
             this.writeToBW(resetCommand);
         }
 
 
-        void setRegister(int p, int v) throws IOException {
+        public void setRegister(int p, int v) throws IOException {
             String composedStr = this.setCommand + " " + Integer.toString(p) + "_" + Integer.toHexString(v);
             this.writeToBW(composedStr);
         }
@@ -88,7 +133,7 @@ public class ManterBridge {
         void setOrAddPseudoRegister(int p, int v) {
             boolean found = false;
             for (Register register : this.currentRegisterState) {
-                if (register.getPort() == p) {
+                if (register.port == p) {
                     register.setValue(v);
                     found = true;
                 }
@@ -104,55 +149,74 @@ public class ManterBridge {
             }
         }
 
-        ArrayList<Register> getRegisters() {
+        public String getCurrentStateString() {
+            StringBuilder stateToStr = new StringBuilder();
+            for (Register reg : this.currentRegisterState) {
+                if (this.filterPorts.contains(reg.getPort())) {
+                    stateToStr.append(reg.getPort()).append("x").append(reg.getValue()).append(" ");
+                }
+            }
+            return stateToStr.toString();
+        }
+
+        public ArrayList<Register> getRegisters() {
             return this.currentRegisterState;
         }
 
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+
+    public static void run(String[] args) throws InterruptedException, IOException {
         if (args.length == 0) {
             System.out.println("Please provide as argument relative path to the program/command you want to execute.");
             return;
         }
 
-        Scanner s = new Scanner(System.in);
+        //Scanner s = new Scanner(System.in);
         List<String> command = new ArrayList<>();
 
         command.add(args[0]);
 
         ProcessBuilder builder = new ProcessBuilder(command);
-//        Map<String, String> environ = builder.environment();
+        //Map<String, String> environ = builder.environment();
 
         final Process process = builder.start();
-        InputStream iutOut = process.getInputStream();
-        InputStream iutErr = process.getErrorStream();
+
+        InputStream iutOut;
+        InputStream iutErr;
+
+
+        iutOut = process.getInputStream();
+        input = new BufferedReader(new InputStreamReader(iutOut));
+
+        iutErr = process.getErrorStream();
+        error = new BufferedReader(new InputStreamReader(iutErr));
 
         mm = new ManterModel();
 
-        iutReader = new IUTReader(iutOut);
-        iutReader.start();
-
-        errReader = new ErrReader(iutErr);
-        errReader.start();
+        //IUTReader iutReader = new IUTReader(iutOut);
+        //iutReader.start();
+        //ErrReader errReader = new ErrReader(iutErr);
+        //errReader.start();
 
         pBW = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 
-        String commandToWrite;
-        for (; ; ) {
-            try {
-                commandToWrite = s.nextLine();
-                if (commandToWrite.equals("quit")) {
-                    break;
-                }
-                pBW.write(commandToWrite + "\n");
-                pBW.flush();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        pBW.close();
-        process.destroy();
+        //String commandToWrite;
+        //for (; ; ) {
+        //    try {
+        //        commandToWrite = s.nextLine();
+        //        if (commandToWrite.equals("quit")) {
+        //            break;
+        //        }
+        //Thread.sleep(5000);
+        //pBW.write("status" + "\n");
+        //pBW.flush();
+        //    } catch (Exception e) {
+        //        System.out.println(e.getMessage());
+        //    }
+        //}
+        //pBW.close();
+        //process.destroy();
     }
 
     public static class ErrReader extends Thread {
@@ -192,6 +256,7 @@ public class ManterBridge {
             System.out.println("IUTReader running!");
             String b;
             String[] arr;
+            String[] arrReg;
             int register;
             int value;
             while (true) {
@@ -200,18 +265,15 @@ public class ManterBridge {
                     if (b == null) {
                         break;
                     }
-                    if (b.contains("utwente_io")) {
-                        b = b.substring(11, b.length() - 1);
-                        arr = b.split(",");
-                        register = Integer.parseInt(arr[0].replaceAll("\\s", ""));
-                        value = Integer.decode("0x" + arr[1].replaceAll("\\s", ""));
-
-//                        System.out.println("Register: " + arr[0].replaceAll("\\s", ""));
-//                        System.out.println("Value: " + "0x" + arr[1].replaceAll("\\s", ""));
-
-                        mm.setOrAddPseudoRegister(register, value);
-
-//                        mm.printCurrentState();
+                    if (b.contains("utwente_status2")) {
+                        b = b.substring(17, b.length() - 1);
+                        arrReg = b.split(" ");
+                        for (String val : arrReg) {
+                            arr = val.split(",");
+                            register = Integer.parseInt(arr[0].replaceAll("\\s", ""));
+                            value = Integer.decode("0x" + arr[1].replaceAll("\\s", ""));
+                            mm.setOrAddPseudoRegister(register, value);
+                        }
                     }
                 } catch (EOFException e) {
                     System.err.println("iutReader got eof exception: " + e.getMessage());
