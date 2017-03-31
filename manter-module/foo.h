@@ -13,6 +13,7 @@
 
 extern void utwente_init();
 extern void utwente_shutdown();
+extern int utwente_adc(int channel, int simulated_value);
 
 extern unsigned char inb(unsigned short int port);
 extern unsigned char inb_p(unsigned short int port);

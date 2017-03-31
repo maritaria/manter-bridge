@@ -12,6 +12,8 @@ struct port_t {
 	int pending_state;
 };
 
+int adc_count = 0;
+
 int ports_count = 0;
 port_t ports[1000] = { 0 };
 pthread_t my_thread;
@@ -136,6 +138,10 @@ void* utwente_thread(void* arg) {
 					PRINT_IO(port.port, port.state, (port.is_pending ? port.pending_state : -1));
 				}
 			}
+			else if (strcmp(part, "adc_count") == 0) {
+				printf("utwente_adc_count(%d)\n", adc_count);
+				adc_count = 0;
+			}
 			else if (strcmp(part, "status2") == 0) {
 				printf("utwente_status2:");
 				for (int i = 0; i < ports_count; i++) {
@@ -186,6 +192,12 @@ void utwente_init() {
 
 void utwente_shutdown() {
 	
+}
+
+int utwente_adc(int channel, int simulated_value) {
+	//printf("utwente_adc(%d, %d)\n", channel, simulated_value);
+	adc_count++;
+	return simulated_value;
 }
 
 unsigned char inb(unsigned short int port) {
