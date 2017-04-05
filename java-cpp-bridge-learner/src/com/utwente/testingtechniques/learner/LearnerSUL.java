@@ -7,11 +7,6 @@ import de.learnlib.api.SULException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Example of a three-state system, hard-coded.
- *
- * @author Ramon Janssen
- */
 public class LearnerSUL implements SUL<String, String> {
     private String currentState;
     private static boolean VERBOSE = true;
@@ -90,8 +85,8 @@ public class LearnerSUL implements SUL<String, String> {
      * output.
      */
     private String makeTransition(String input) throws IOException, InterruptedException {
-//        bagger_empty -> dropping
-//        bagger_full -> not_dropping
+    //bagger_empty -> dropping
+    //bagger_full -> not_dropping
         switch (input) {
             case "bagger_empty":
                 ManterBridge.mm.setRegister(300, 0xef);
@@ -107,33 +102,31 @@ public class LearnerSUL implements SUL<String, String> {
         int counter = 0;
         boolean notDropping = false;
         boolean startedDropping = false;
-//        boolean previous_notDropping = true, previous_startedDropping = false, previous_beltRunning = false;
         boolean beltRunning = false;
         while (currTime + 1000 > System.currentTimeMillis()) {
             counter++;
             boolean isBucketDropping = false;
-
+            boolean isBeltRunning = false;
             ArrayList<ManterBridge.Register> tempArrReg = ManterBridge.mm.getStatus();
             //211 && 212 == ff (No buckets open)
-
             for (ManterBridge.Register reg : tempArrReg) {
                 if ((reg.port == 215 || reg.port == 216)) {
                     isBucketDropping |= reg.value != Integer.decode("0xff");
 
                 }
                 if (reg.port == 305) {
-                    beltRunning |= reg.value != Integer.decode("0xff");
+                    isBeltRunning = reg.value != Integer.decode("0xff");
                 }
             }
             if (!isBucketDropping && !notDropping) {
                 notDropping = true;
+                beltRunning = isBeltRunning;
             }
             if (notDropping && isBucketDropping) {
                 startedDropping = true;
+                beltRunning = isBeltRunning;
                 break;
             }
-//            if (previous_notDropping == notDropping || previous_startedDropping == startedDropping || previous_beltRunning == beltRunning)
-//                break;
         }
         System.out.println("Counter: " + counter);
         if ((!notDropping || startedDropping) && beltRunning) {

@@ -8,9 +8,8 @@ import java.util.Scanner;
 public class ManterBridge {
     static BufferedWriter pBW;
     public static ManterModel mm;
-    public static boolean programReady = false;
     static BufferedReader input;
-    static BufferedReader error;
+    private static BufferedReader error;
 
     public static class Register {
         public int port;
@@ -56,7 +55,7 @@ public class ManterBridge {
 
         ManterModel() {
             this.currentRegisterState = new ArrayList<>();
-            this.filterPorts = new ArrayList<Integer>();
+            this.filterPorts = new ArrayList<>();
             this.filterPorts.add(216);
             this.filterPorts.add(215);
             this.filterPorts.add(305);
