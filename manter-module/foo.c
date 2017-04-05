@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "utwente.h"
 
 struct port_t {
 	int port;
@@ -30,6 +31,7 @@ int channel_count = 0;
 channel_t channels[1000] = { 0 };
 
 int check_read(int port, const char* funcname) {
+	ut_get_port(port);
 	if (show_reads) printf("utwente io read %02x\n", port);
 	port_t* entry;
 	for(int i = 0; i < ports_count; i++) {
@@ -49,6 +51,7 @@ int check_read(int port, const char* funcname) {
 }
 
 void check_write(int port, int value, const char* funcname) {
+	ut_set_port(port, value);
 	if (show_writes) printf("utwente io write %02x %02x\n", port, value);
 	bool pending_write = (funcname && strcmp("pending", funcname) == 0);
 	port_t* entry;
@@ -212,16 +215,28 @@ void* utwente_thread(void* arg) {
 
 void utwente_init() {
 	setbuf(stdout, NULL);
-	int err = pthread_create(&my_thread, NULL, &utwente_thread, NULL);
-	if (err != 0)
-	{
-		printf("utwente init() Thread failed [%s]\n", strerror(err));
-		exit(-1);
+	ut_add_port(0x215);
+	ut_add_port(0x216);
+	ut_add_port(0x300);
+	for (int i = 0; i < BIT_COUNT; i++) {
+		ut_trigger(0x215, i, WRITE, BREAK);
+		ut_trigger(0x216, i, WRITE, BREAK);
 	}
-	else
-	{
-		printf("utwente init() Thread created\n");
-	}
+	ut_lock_pin(0x300, 0, TRUE);
+	ut_lock_pin(0x300, 1, TRUE);
+	ut_lock_pin(0x300, 2, TRUE);
+	ut_lock_pin(0x300, 3, TRUE);
+	ut_lock_pin(0x300, 4, FALSE);
+	ut_lock_pin(0x300, 5, FALSE);
+	ut_lock_pin(0x300, 6, FALSE);
+	ut_lock_pin(0x300, 7, FALSE);
+	
+	int before = 0x00;
+	printf("utwente adding flag %02x -> %02x\n", before, ADD_FLAG(before, 3));
+	printf("utwente adding flag %02x -> %02x\n", before, ADD_FLAG(before, 4));
+	printf("utwente adding flag %02x -> %02x\n", before, ADD_FLAG(before, 5));
+	printf("utwente adding flag %02x -> %02x\n", before, ADD_FLAG(before, 6));
+	
 }
 
 void utwente_shutdown() {
