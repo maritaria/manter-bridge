@@ -32,7 +32,20 @@ void ut_add_port(int port_num)
 		port->forced_high = 0x00;
 	}
 }
+
+int known_commands_count = 0;
+command_entry known_commands[COMMAND_CAPACITY] = { 0 };
+
+void ut_add_command(const char* name, bool (*callback)(void)) {
+	int index = known_commands_count++;
+	known_commands[index] = {
+		.name = name,
+		.callback = callback
+	};
+}
+
 void command_status(void);
+const char* command_delim = " ";
 void command_loop() {
 	while (TRUE) {
 		// Get line
@@ -43,17 +56,27 @@ void command_loop() {
 		// Trim newline from input
 		*pos = '\0';
 		// Split by spaces and parse
-		const char* delimiters = " ";
-		for (char* part = strtok(user_string, delimiters); part != NULL; part = strtok(NULL, delimiters)) {
+		for (char* part = strtok(user_string, command_delim); part != NULL; part = ut_command_next_word()) {
 			if (part == NULL) { break; }
-			if (STRING_EQUALS(part, "continue")) {
-				return;
-			}
-			if (STRING_EQUALS(part, "status")) {
-				command_status();
+			
+			for (int i = 0; i < known_commands_count; i++) {
+				command_entry* command = &(known_commands[i]);
+				if (STRING_EQUALS(part, command->name)) {
+					if (!command->callback()) {
+						return;
+					}
+				}
 			}
 		}
 	}
+}
+bool ut_command_continue() {
+	return FALSE;
+}
+
+
+char* ut_command_next_word() {
+	return strtok(NULL, command_delim);
 }
 
 const char* binary(int value) {
@@ -84,16 +107,19 @@ void print_port(digital_port* port) {
 	printf("utwente port forced-high %02x %8s\n", port->state_raw, binary(port->forced_high));
 }
 
-void command_status() {
+bool ut_command_status() {
 	printf("utwente status start\n");
 	for (int i = 0; i < known_ports_count; i++) {
 		print_port(&(known_ports[i]));
 	}
 	printf("utwente status end\n");
+	return TRUE;
 }
 
-
-
+void ut_setup() {
+	ut_add_command("continue", ut_command_continue);
+	ut_add_command("status", ut_command_status);
+}
 int ut_get_port(int port_num) {
 	digital_port* port = find_port(port_num);
 	if (port == NULL) { return DEFAULT_DIGITAL; }

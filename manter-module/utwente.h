@@ -4,6 +4,7 @@
 
 #define PORT_CAPACITY (1000)
 #define CHANNEL_CAPACITY (1000)
+#define COMMAND_CAPACITY (128)
 #define DEFAULT_DIGITAL (0xFF)
 #define BIT_COUNT (8)
 #define FALSE (0)
@@ -14,7 +15,6 @@
 #define HAS_MASK(X, MASK) ((X | MASK) > 0)
 #define STRING_EQUALS(INPUT, COMMAND) (strcmp(INPUT, COMMAND) == 0)
 #define THREAD_ID ((pid_t)syscall(SYS_gettid))
-
 
 typedef enum trigger_type {
 	READ = 1,
@@ -43,6 +43,11 @@ typedef struct analog_port {
 	bool is_override;
 } analog_port;
 
+typedef struct command_entry {
+	const char* name;
+	bool (*callback)(void);
+} command_entry;
+
 void ut_add_port(int port_num);
 
 int ut_get_port(int port_num);
@@ -55,3 +60,7 @@ void ut_lock_pin(int port_num, int bit, bool value);
 void ut_unlock_pin(int port_num, int bit);
 
 void ut_trigger(int port_num, int bit, trigger_type type, trigger_mode mode);
+
+void ut_add_command(const char* name, bool (*callback)(void));
+char* ut_command_next_word();
+void ut_setup();
