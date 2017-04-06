@@ -246,7 +246,6 @@ CREATE_COMMAND(setbit) {
 		{
 			char* port_name = (char*) malloc(200 * sizeof(char));
 			read_count = sscanf(arg, "%[^.].%x.%d", port_name, &bit, &value);
-			printf("utwente using port naming instead %d \"%s\"\n",read_count, port_name);
 			port = find_port_by_name(port_name);
 			free(port_name);
 		}
@@ -264,6 +263,68 @@ CREATE_COMMAND(setbit) {
 				port->state_raw = ADD_FLAG(port->state_raw, bit);
 			} else {
 				port->state_raw = REMOVE_FLAG(port->state_raw, bit);
+			}
+		}
+	}
+	return TRUE;
+}
+
+CREATE_COMMAND(settrig) {
+	char* arg = ut_command_next_word();
+	if (arg != NULL) {
+		digital_port* port;
+		int port_num = 0;
+		int read_count = sscanf(arg, "%x", &port_num);
+		if (read_count == 0)
+		{
+			char* port_name = (char*) malloc(200 * sizeof(char));
+			read_count = sscanf(arg, "%s", port_name);
+			port = find_port_by_name(port_name);
+			free(port_name);
+		}
+		else
+		{
+			port = find_port(port_num);
+		}
+		if (port == NULL)
+		{
+			printf("utwente port not found\n");
+		}
+		else
+		{
+			for (int i = 0; i < BIT_COUNT; i++) {
+				ut_trigger(port->port, i, ALL, BREAK);
+			}
+		}
+	}
+	return TRUE;
+}
+
+CREATE_COMMAND(cleartrig) {
+	char* arg = ut_command_next_word();
+	if (arg != NULL) {
+		digital_port* port;
+		int port_num = 0;
+		int read_count = sscanf(arg, "%x", &port_num);
+		if (read_count == 0)
+		{
+			char* port_name = (char*) malloc(200 * sizeof(char));
+			read_count = sscanf(arg, "%s", port_name);
+			port = find_port_by_name(port_name);
+			free(port_name);
+		}
+		else
+		{
+			port = find_port(port_num);
+		}
+		if (port == NULL)
+		{
+			printf("utwente port not found\n");
+		}
+		else
+		{
+			for (int i = 0; i < BIT_COUNT; i++) {
+				ut_trigger(port->port, i, ALL, DISABLED);
 			}
 		}
 	}

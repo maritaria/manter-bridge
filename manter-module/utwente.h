@@ -19,6 +19,7 @@
 typedef enum trigger_type {
 	READ = 1,
 	WRITE = 2,
+	ALL = READ | WRITE,
 } trigger_type;
 
 typedef enum trigger_mode {
