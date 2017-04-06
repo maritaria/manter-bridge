@@ -276,6 +276,69 @@ CREATE_COMMAND(setbit) {
 	return TRUE;
 }
 
+CREATE_COMMAND(lockbit) {
+	while (TRUE) {
+		char* arg = ut_command_next_word();
+		if (arg == NULL) { break; }
+		digital_port* port;
+		int port_num = 0;
+		int bit = 0;
+		int value = 0;
+		int read_count = sscanf(arg, "%x.%x.%d", &port_num, &bit, &value);
+		if (read_count == 0)
+		{
+			char* port_name = (char*) malloc(200 * sizeof(char));
+			read_count = sscanf(arg, "%[^.].%x.%d", port_name, &bit, &value);
+			port = find_port_by_name(port_name);
+			free(port_name);
+		}
+		else
+		{
+			port = find_port(port_num);
+		}
+		if (port == NULL)
+		{
+			printf("utwente port not found\n");
+		}
+		else
+		{
+			ut_lock_pin(port->port, bit, value);
+		}
+	}
+	return TRUE;
+}
+
+CREATE_COMMAND(unlockbit) {
+	while (TRUE) {
+		char* arg = ut_command_next_word();
+		if (arg == NULL) { break; }
+		digital_port* port;
+		int port_num = 0;
+		int bit = 0;
+		int read_count = sscanf(arg, "%x.%x", &port_num, &bit);
+		if (read_count == 0)
+		{
+			char* port_name = (char*) malloc(200 * sizeof(char));
+			read_count = sscanf(arg, "%[^.].%x", port_name, &bit);
+			port = find_port_by_name(port_name);
+			free(port_name);
+		}
+		else
+		{
+			port = find_port(port_num);
+		}
+		if (port == NULL)
+		{
+			printf("utwente port not found\n");
+		}
+		else
+		{
+			ut_unlock_pin(port->port, bit);
+		}
+	}
+	return TRUE;
+}
+
 CREATE_COMMAND(settrig) {
 	char* arg = ut_command_next_word();
 	if (arg != NULL) {
