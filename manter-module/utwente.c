@@ -87,7 +87,10 @@ char* ut_command_next_word() {
 }
 int ut_get_port(int port_num) {
 	digital_port* port = find_port(port_num);
-	if (port == NULL) { return DEFAULT_DIGITAL; }
+	if (port == NULL) {
+		ut_add_port(port_num, "autogen");
+		port = find_port(port_num);
+	}
 	// Check triggers
 	bool breakpoint = FALSE;
 	bool notify = FALSE;
@@ -113,7 +116,11 @@ int ut_get_port(int port_num) {
 
 void ut_set_port(int port_num, int value) {
 	digital_port* port = find_port(port_num);
-	if (port == NULL) { return; }
+	if (port == NULL) {
+		ut_add_port(port_num, "autogen");
+		port = find_port(port_num);
+		port->state_reset = value;
+	}
 	int changed_bits = port->state_raw ^ value;
 	port->state_raw = value;
 	bool breakpoint = FALSE;
