@@ -216,9 +216,9 @@ void* utwente_thread(void* arg) {
 void utwente_init() {
 	setbuf(stdout, NULL);
 	
-	ut_add_port(0x215);
-	ut_add_port(0x216);
-	ut_add_port(0x300);
+	ut_add_port(0x215, "test1");
+	ut_add_port(0x216, "test2");
+	ut_add_port(0x300, "test3");
 	for (int i = 0; i < BIT_COUNT; i++) {
 		ut_trigger(0x215, i, WRITE, BREAK);
 		ut_trigger(0x216, i, WRITE, BREAK);
