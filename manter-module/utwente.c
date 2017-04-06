@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "utwente.h"
-#include "utwente-commands.h"
 
 int known_ports_count = 0;
 digital_port known_ports[PORT_CAPACITY] = { 0 };
+
 digital_port* find_port(int port) {
 	for (int i = 0; i < known_ports_count; i++) {
 		if (known_ports[i].port == port) {
@@ -16,10 +16,20 @@ digital_port* find_port(int port) {
 	}
 	return NULL;
 }
+
 digital_port* create_port() {
 	int index = known_ports_count++;
 	known_ports[index] = { 0 };
 	return &(known_ports[index]);
+}
+
+digital_port* find_port_by_name(const char* name) {
+	for (int i = 0; i < known_ports_count; i++) {
+		if (STRING_EQUALS(known_ports[i].name, name)) {
+			return &(known_ports[i]);
+		}
+	}
+	return NULL;
 }
 
 void ut_add_port(int port_num, const char* name)
@@ -74,34 +84,6 @@ void command_loop() {
 
 char* ut_command_next_word() {
 	return strtok(NULL, command_delim);
-}
-
-const char* binary(int value) {
-	static const char binnums[16][5] = {
-		"0000","0001","0010","0011",
-		"0100","0101","0110","0111",
-		"1000","1001","1010","1011",
-		"1100","1101","1110","1111"
-	};
-	static const char* hexnums = "0123456789abcdef";
-	static char inbuffer[16], outbuffer[4 * 16];
-	const char *i;
-	sprintf(inbuffer, "%x", value); // hexadecimal n -> inbuffer
-	for(i = inbuffer; *i != 0; ++i) { // for each hexadecimal cipher
-		int d = strchr(hexnums, *i) - hexnums; // store its decimal value to d
-		char* o = outbuffer + (i - inbuffer) * 4; // shift four characters in outbuffer
-		sprintf(o, "%s", binnums[d]); // place binary value of d there
-	}
-	return strchr(outbuffer, '1'); // omit leading zeros
-}
-
-void print_port(digital_port* port) {
-	if (port == NULL) { return; }
-	printf("utwente port \"%s\" (%x)\n", port->port, port->name);
-	printf("utwente port raw         %02x %8s\n", port->state_raw, binary(port->state_raw));
-	printf("utwente port reset       %02x %8s\n", port->state_raw, binary(port->state_reset));
-	printf("utwente port forced-low  %02x %8s\n", port->state_raw, binary(port->forced_low));
-	printf("utwente port forced-high %02x %8s\n", port->state_raw, binary(port->forced_high));
 }
 int ut_get_port(int port_num) {
 	digital_port* port = find_port(port_num);
@@ -201,6 +183,35 @@ void ut_trigger(int port_num, int bit, trigger_type type, trigger_mode mode) {
 
 
 
+
+const char* binary(int value) {
+	static const char binnums[16][5] = {
+		"0000","0001","0010","0011",
+		"0100","0101","0110","0111",
+		"1000","1001","1010","1011",
+		"1100","1101","1110","1111"
+	};
+	static const char* hexnums = "0123456789abcdef";
+	static char inbuffer[16], outbuffer[4 * 16];
+	const char *i;
+	sprintf(inbuffer, "%x", value); // hexadecimal n -> inbuffer
+	for(i = inbuffer; *i != 0; ++i) { // for each hexadecimal cipher
+		int d = strchr(hexnums, *i) - hexnums; // store its decimal value to d
+		char* o = outbuffer + (i - inbuffer) * 4; // shift four characters in outbuffer
+		sprintf(o, "%s", binnums[d]); // place binary value of d there
+	}
+	return strchr(outbuffer, '1'); // omit leading zeros
+}
+
+void print_port(digital_port* port) {
+	if (port == NULL) { return; }
+	printf("utwente port \"%s\" (%x)\n", port->name, port->port);
+	printf("utwente port raw         %02x %8s\n", port->state_raw, binary(port->state_raw));
+	printf("utwente port reset       %02x %8s\n", port->state_raw, binary(port->state_reset));
+	printf("utwente port forced-low  %02x %8s\n", port->state_raw, binary(port->forced_low));
+	printf("utwente port forced-high %02x %8s\n", port->state_raw, binary(port->forced_high));
+}
+
 #define CREATE_COMMAND(COMNAME) \
 	static bool ut_com_##COMNAME(void);\
 	static void __attribute__((constructor)) __construct_ut_com_##COMNAME(void) {\
@@ -219,5 +230,42 @@ CREATE_COMMAND(status) {
 		print_port(&(known_ports[i]));
 	}
 	printf("utwente status end\n");
+	return TRUE;
+}
+
+CREATE_COMMAND(setbit) {
+	while (TRUE) {
+		char* arg = ut_command_next_word();
+		if (arg == NULL) { break; }
+		digital_port* port;
+		int port_num = 0;
+		int bit = 0;
+		int value = 0;
+		int read_count = sscanf(arg, "%x.%x.%d", &port_num, &bit, &value);
+		if (read_count == 0)
+		{
+			char* port_name = (char*) malloc(200 * sizeof(char));
+			read_count = sscanf(arg, "%[^.].%x.%d", port_name, &bit, &value);
+			printf("utwente using port naming instead %d \"%s\"\n",read_count, port_name);
+			port = find_port_by_name(port_name);
+			free(port_name);
+		}
+		else
+		{
+			port = find_port(port_num);
+		}
+		if (port == NULL)
+		{
+			printf("utwente port not found\n");
+		}
+		else
+		{
+			if (value) {
+				port->state_raw = ADD_FLAG(port->state_raw, bit);
+			} else {
+				port->state_raw = REMOVE_FLAG(port->state_raw, bit);
+			}
+		}
+	}
 	return TRUE;
 }
