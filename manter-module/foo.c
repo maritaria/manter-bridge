@@ -45,14 +45,16 @@ int check_adc_read(int channel, int simulated_value, const char* funcname) {
 void utwente_init() {
 	setbuf(stdout, NULL);
 	
-	ut_add_port(0x215, "test1");
-	ut_add_port(0x216, "test2");
+	ut_add_port(0x211, "bucket2");
+	ut_add_port(0x212, "bucket1");
+	ut_add_port(0x215, "lane2");
+	ut_add_port(0x216, "lane1");
 	ut_add_port(0x300, "adc_in");
 	ut_add_port(0x301, "adc_out");
 	ut_add_port(0x305, "bagger");
 	for (int i = 0; i < BIT_COUNT; i++) {
-		ut_trigger(0x215, i, WRITE, BREAK);
-		ut_trigger(0x216, i, WRITE, BREAK);
+		ut_trigger(0x211, i, WRITE, BREAK);
+		ut_trigger(0x212, i, WRITE, BREAK);
 		ut_trigger(0x305, i, WRITE, BREAK);
 	}
 	ut_lock_pin(0x300, 0, TRUE);
