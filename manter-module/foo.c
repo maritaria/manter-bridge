@@ -5,6 +5,10 @@
 #include <unistd.h>
 #include "utwente.h"
 
+pthread_mutex_t lock;
+#define LOCK() pthread_mutex_lock(&lock)
+#define UNLOCK() pthread_mutex_unlock(&lock)
+
 struct channel_t {
 	int channel;
 	int state;
@@ -15,11 +19,16 @@ int channel_count = 0;
 channel_t channels[1000] = { 0 };
 
 int check_read(int port, const char* funcname) {
-	return ut_get_port(port);
+	LOCK();
+	int result = ut_get_port(port);
+	UNLOCK();
+	return result;
 }
 
 void check_write(int port, int value, const char* funcname) {
+	LOCK();
 	ut_set_port(port, value);
+	UNLOCK();
 }
 
 int check_adc_read(int channel, int simulated_value, const char* funcname) {
@@ -45,6 +54,13 @@ int check_adc_read(int channel, int simulated_value, const char* funcname) {
 void utwente_init() {
 	setbuf(stdout, NULL);
 	
+	if (pthread_mutex_init(&lock, NULL) != 0)
+	{
+		printf("\nutwente mutex init failed\n");
+		exit(1);
+	}
+	
+	LOCK();
 	ut_add_port(0x215, "test1");
 	ut_add_port(0x216, "test2");
 	ut_add_port(0x300, "adc_in");
@@ -63,7 +79,7 @@ void utwente_init() {
 	ut_lock_pin(0x300, 5, FALSE);
 	ut_lock_pin(0x300, 6, FALSE);
 	ut_lock_pin(0x300, 7, FALSE);
-	
+	UNLOCK();
 }
 
 void utwente_shutdown() {
