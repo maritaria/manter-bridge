@@ -47,10 +47,13 @@ void utwente_init() {
 	
 	ut_add_port(0x215, "test1");
 	ut_add_port(0x216, "test2");
-	ut_add_port(0x300, "test3");
+	ut_add_port(0x300, "adc_in");
+	ut_add_port(0x301, "adc_out");
+	ut_add_port(0x305, "bagger");
 	for (int i = 0; i < BIT_COUNT; i++) {
 		ut_trigger(0x215, i, WRITE, BREAK);
 		ut_trigger(0x216, i, WRITE, BREAK);
+		ut_trigger(0x305, i, WRITE, BREAK);
 	}
 	ut_lock_pin(0x300, 0, TRUE);
 	ut_lock_pin(0x300, 1, TRUE);
