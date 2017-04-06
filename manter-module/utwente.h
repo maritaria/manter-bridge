@@ -63,4 +63,3 @@ void ut_trigger(int port_num, int bit, trigger_type type, trigger_mode mode);
 
 void ut_add_command(const char* name, bool (*callback)(void));
 char* ut_command_next_word();
-void ut_setup();

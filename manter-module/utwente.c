@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "utwente.h"
+#include "utwente-commands.h"
 
 int known_ports_count = 0;
 digital_port known_ports[PORT_CAPACITY] = { 0 };
@@ -44,7 +45,6 @@ void ut_add_command(const char* name, bool (*callback)(void)) {
 	};
 }
 
-void command_status(void);
 const char* command_delim = " ";
 void command_loop() {
 	while (TRUE) {
@@ -70,10 +70,6 @@ void command_loop() {
 		}
 	}
 }
-bool ut_command_continue() {
-	return FALSE;
-}
-
 
 char* ut_command_next_word() {
 	return strtok(NULL, command_delim);
@@ -105,20 +101,6 @@ void print_port(digital_port* port) {
 	printf("utwente port reset       %02x %8s\n", port->state_raw, binary(port->state_reset));
 	printf("utwente port forced-low  %02x %8s\n", port->state_raw, binary(port->forced_low));
 	printf("utwente port forced-high %02x %8s\n", port->state_raw, binary(port->forced_high));
-}
-
-bool ut_command_status() {
-	printf("utwente status start\n");
-	for (int i = 0; i < known_ports_count; i++) {
-		print_port(&(known_ports[i]));
-	}
-	printf("utwente status end\n");
-	return TRUE;
-}
-
-void ut_setup() {
-	ut_add_command("continue", ut_command_continue);
-	ut_add_command("status", ut_command_status);
 }
 int ut_get_port(int port_num) {
 	digital_port* port = find_port(port_num);
@@ -173,6 +155,7 @@ void ut_set_port(int port_num, int value) {
 bool ut_get_pin(int port_num, int bit) {
 	return TRUE;
 }
+
 void ut_set_pin(int port_num, int bit, bool value) {
 	digital_port* port = find_port(port_num);
 	if (port != NULL) {
@@ -191,6 +174,7 @@ void ut_lock_pin(int port_num, int bit, bool value) {
 		}
 	}
 }
+
 void ut_unlock_pin(int port_num, int bit) {
 	digital_port* port = find_port(port_num);
 	if (port != NULL) {
@@ -211,3 +195,28 @@ void ut_trigger(int port_num, int bit, trigger_type type, trigger_mode mode) {
 	}
 }
 
+
+
+
+
+
+#define CREATE_COMMAND(COMNAME) \
+	static bool ut_com_##COMNAME(void);\
+	static void __attribute__((constructor)) __construct_ut_com_##COMNAME(void) {\
+		printf("utwente registering command %s\n", #COMNAME);\
+		ut_add_command(#COMNAME, ut_com_##COMNAME);\
+	};\
+	static bool ut_com_##COMNAME(void)
+
+CREATE_COMMAND(continue) {
+	return FALSE;
+}
+
+CREATE_COMMAND(status) {
+	printf("utwente status start\n");
+	for (int i = 0; i < known_ports_count; i++) {
+		print_port(&(known_ports[i]));
+	}
+	printf("utwente status end\n");
+	return TRUE;
+}

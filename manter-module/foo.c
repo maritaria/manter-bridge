@@ -215,7 +215,7 @@ void* utwente_thread(void* arg) {
 
 void utwente_init() {
 	setbuf(stdout, NULL);
-	ut_setup();
+	
 	ut_add_port(0x215);
 	ut_add_port(0x216);
 	ut_add_port(0x300);
