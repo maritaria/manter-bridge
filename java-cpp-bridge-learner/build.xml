@@ -152,6 +152,9 @@
     <jar destfile="${temp.jar.path.java_cpp_bridge_learner.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
       <zipfileset dir="${java_cpp_bridge_learner.output.dir}"/>
       <zipfileset src="${basedir}/libs/Learnlib-with-ETF-updated.jar"/>
+      <manifest>
+        <attribute name="Main-Class" value="com.utwente.testingtechniques.learner.Learner" />
+      </manifest>
     </jar>
     <copy file="${temp.jar.path.java_cpp_bridge_learner.jar}" tofile="${artifact.temp.output.java_cpp_bridge_learner:jar}/java_cpp_bridge_learner.jar"/>
   </target>
