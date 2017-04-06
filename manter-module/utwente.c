@@ -22,7 +22,7 @@ digital_port* create_port() {
 	return &(known_ports[index]);
 }
 
-void ut_add_port(int port_num)
+void ut_add_port(int port_num, const char* name)
 {
 	if (find_port(port_num) == NULL) {
 		digital_port* port = create_port();
@@ -31,6 +31,7 @@ void ut_add_port(int port_num)
 		port->state_reset = DEFAULT_DIGITAL;
 		port->forced_low = 0x00;
 		port->forced_high = 0x00;
+		port->name = name;
 	}
 }
 
@@ -96,7 +97,7 @@ const char* binary(int value) {
 
 void print_port(digital_port* port) {
 	if (port == NULL) { return; }
-	printf("utwente port(%x)\n", port->port);
+	printf("utwente port \"%s\" (%x)\n", port->port, port->name);
 	printf("utwente port raw         %02x %8s\n", port->state_raw, binary(port->state_raw));
 	printf("utwente port reset       %02x %8s\n", port->state_raw, binary(port->state_reset));
 	printf("utwente port forced-low  %02x %8s\n", port->state_raw, binary(port->forced_low));

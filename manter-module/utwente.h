@@ -33,6 +33,7 @@ typedef struct digital_port {
 	int state_reset;
 	int forced_low;
 	int forced_high;
+	const char* name;
 	trigger_mode read_triggers[BIT_COUNT];
 	trigger_mode write_triggers[BIT_COUNT];
 } digital_port;
@@ -48,7 +49,7 @@ typedef struct command_entry {
 	bool (*callback)(void);
 } command_entry;
 
-void ut_add_port(int port_num);
+void ut_add_port(int port_num, const char* name);
 
 int ut_get_port(int port_num);
 void ut_set_port(int port_num, int value);
